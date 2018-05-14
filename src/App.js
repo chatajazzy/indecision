@@ -4,12 +4,17 @@ import AddOption from './components/AddOption';
 import Action from './components/Action';
 import Header from './components/Header';
 import Options from './components/Options';
+import OptionModal from './components/OptionModal';
 
 import './App.css';
 
 class App extends Component {
   state = {
-    options: []
+    options: [],
+    selectedOption: undefined
+  };
+  handleClearSelectedOption = () => {
+    this.setState(() => ({ selectedOption: undefined }));
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
@@ -22,7 +27,7 @@ class App extends Component {
   handlePick = () => {
     const randomNum = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNum];
-    alert(option);
+    this.setState({ selectedOption: option });
   };
   handleAddOption = option => {
     if (!option) {
@@ -72,6 +77,10 @@ class App extends Component {
           handleDeleteOption={this.handleDeleteOption}
         />
         <AddOption handleAddOption={this.handleAddOption} />
+        <OptionModal
+          selectedOption={this.state.selectedOption}
+          handleClearSelectedOption={this.handleClearSelectedOption}
+        />
       </div>
     );
   }
